@@ -67,8 +67,8 @@ def get_cashflow(stock_id_list):
 
 
 if __name__ == '__main__':
-    file_path = r"E:\data\fin_tab\numberlist.xlsx"
+    file_path = r"your_list_path.xlsx"
     stk_list = get_stocklist(file_path_1=file_path)
-    # get_balancesheet(stock_id_list=stk_list)
-    # get_profitstatement(stock_id_list=stk_list)
+    get_balancesheet(stock_id_list=stk_list)
+    get_profitstatement(stock_id_list=stk_list)
     get_cashflow(stock_id_list=stk_list)
