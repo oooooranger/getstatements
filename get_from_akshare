@@ -1,0 +1,38 @@
+import akshare as ak
+import openpyxl
+
+# output_file = r'E:\data\fin_tab\result.xlsx'
+def get_stocklist(file_path):
+    wb = openpyxl.load_workbook(file_path)
+    sheet = wb['Sheet1']
+    stocklist = [cell.value for row in sheet.iter_rows() for cell in row if cell.value]
+    return stocklist
+
+
+if __name__ == '__main__':
+    file_path = r"E:\data\fin_tab\numberlist.xlsx"
+    stk_list = get_stocklist(file_path)
+
+    wb = openpyxl.Workbook()
+    sheet = wb.active
+
+    Num = 1
+    listNum = len(stk_list)
+    for stock_code in stk_list:
+        try:
+            stock_code = str(stock_code)
+            Num += 1
+
+            stock_df = ak.stock_profile_cninfo(symbol=stock_code)
+
+            for row in stock_df.iterrows():
+                sheet.append(row[1].values.tolist())
+
+            print(f"{Num} of {listNum}")
+
+        except AttributeError as e:
+            print(f"获取 {stock_code} 股票资源错误,报错信息:{e}")
+            continue
+
+    wb.save(r"E:\data\fin_tab\tonghuashun.xlsx")
+    wb.close()
